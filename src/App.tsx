@@ -11,13 +11,12 @@ const App = () => {
     setOpenOrderReportRDDialog(!openOrderReportRDDialog);
 
   return (
-    <div>
-      <Button variant="outlined" onClick={toggleOrderReportRDDialog}>
+    <div className="flexCenter minHeight100">
+      <Button variant="contained" onClick={toggleOrderReportRDDialog}>
         Générer un rapport de commande R&D
       </Button>
       <ReportOrderRDDialog
-        open
-        // open={openOrderReportRDDialog}
+        open={openOrderReportRDDialog}
         onClose={toggleOrderReportRDDialog}
       />
     </div>

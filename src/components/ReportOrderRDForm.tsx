@@ -27,12 +27,7 @@ const FormikTextField = ({ field, ...props }) => (
 );
 
 const initialValues: IProductFormValues = {
-  products: [
-    {
-      product: null,
-      quantity: null
-    }
-  ]
+  products: []
 };
 
 type Props = {
