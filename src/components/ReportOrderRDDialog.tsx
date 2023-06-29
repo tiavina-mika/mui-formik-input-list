@@ -47,12 +47,12 @@ export const ReportOrderRDDialog = (props) => {
           de commande R&D, ainsi que la quantité associé à chaque produit.
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="flexRow spaceBetween">
         <Button onClick={handleCancel} color="primary">
           Annuler
         </Button>
         <Button onClick={handleConfirm} color="primary" variant="contained">
-          Confirmer
+          Générer
         </Button>
       </DialogActions>
     </StyledDialog>

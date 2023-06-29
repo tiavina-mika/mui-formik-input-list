@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import ReportOrderRDDialog from "./public/components/ReportOrderRDDialog";
+import ReportOrderRDDialog from "./components/ReportOrderRDDialog";
 
 const App = () => {
   const [openOrderReportRDDialog, setOpenOrderReportRDDialog] = useState<
@@ -16,7 +16,8 @@ const App = () => {
         Générer un rapport de commande R&D
       </Button>
       <ReportOrderRDDialog
-        open={openOrderReportRDDialog}
+        open
+        // open={openOrderReportRDDialog}
         onClose={toggleOrderReportRDDialog}
       />
     </div>
