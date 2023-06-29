@@ -40,7 +40,6 @@ const FormikAutocomplete = ({
           onChange={handleChange}
           InputProps={{
             ...params.InputProps,
-            // readOnly,
             endAdornment: (
               <>
                 {loading ? (
