@@ -70,7 +70,11 @@ const SupplierItemAutocompleteField = ({
   const [supplierItemsOptions, setSupplierItemsOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const onChangeAutocomplete = useRef((newValue) => {}).current;
+  const onChangeAutocomplete = (newValue) => {
+    // console.log('newValue', newValue)
+    setFieldValue(name, newValue.data);
+    // c
+  };
 
   const searchingSupplier = debounce(async (event) => {
     if (event && event.type === "change") {
@@ -95,13 +99,21 @@ const SupplierItemAutocompleteField = ({
       loading={loading}
       component={FormikAutocomplete}
       options={supplierItemsOptions}
-      isOptionEqualToValue={(option, value) =>
-        value && option.value === value.value
-      }
+      isOptionEqualToValue={(option, value) => {
+        // console.log('option', option);
+        // console.log('value', value);
+        return value && option.value === value.objectId;
+      }}
       getOptionLabel={(option) => option.name}
       onChange={(_, newValue) => onChangeAutocomplete(newValue)}
       onInputChange={searchingSupplier}
-      renderOption={(props, option) => <li {...props}>{option.name}</li>}
+      renderOption={(props, option) => {
+        return (
+          <li key={option.value} {...props}>
+            {option.name}
+          </li>
+        );
+      }}
       disableClearable
     />
   );
