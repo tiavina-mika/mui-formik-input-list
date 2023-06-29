@@ -1,14 +1,9 @@
-import React, { useState useRef } from "react";
+import React, { useState, useRef } from "react";
 
 import { Field } from "formik";
-import {
-  Autocomplete,
-  CircularProgress,
-  TextField
-} from "@mui/material";
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { debounce } from "lodash";
 import { searchSupplierItemsAutocomplete } from "../utils/utils";
-
 
 const autocompleteSx = {
   textField: {
@@ -67,58 +62,49 @@ type Props = {
   setFieldValue: any;
 };
 
-const EditableStepComponent = ({
+const SupplierItemAutocompleteField = ({
   setFieldValue,
   name,
-  label,
+  label
 }: Props) => {
   const [supplierItemsOptions, setSupplierItemsOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const onChangeAutocomplete = useRef((newValue) => {
-    
-  }).current;
+  const onChangeAutocomplete = useRef((newValue) => {}).current;
 
-  const searchingSupplier =  debounce(async (event) => {
-      if (event && event.type === "change") {
-        setLoading(true);
-        const supplierItems = await searchSupplierItemsAutocomplete(
-          event.target.value
-        );
-        const result = supplierItems.map((supplierItem) => ({
-            name: supplierItem.name.toLowerCase(),
-            value: supplierItem.objectId,
-            data: supplierItem,
-          }))
-        setSupplierItemsOptions(result);
-        setLoading(false);
-      }
-    }, 700)
+  const searchingSupplier = debounce(async (event) => {
+    if (event && event.type === "change") {
+      setLoading(true);
+      const supplierItems = await searchSupplierItemsAutocomplete(
+        event.target.value
+      );
+      const result = supplierItems.map((supplierItem) => ({
+        name: supplierItem.name.toLowerCase(),
+        value: supplierItem.objectId,
+        data: supplierItem
+      }));
+      setSupplierItemsOptions(result);
+      setLoading(false);
+    }
+  }, 700);
 
   return (
     <Field
-    name={name}
-    label={label}
-    loading={loading}
-    component={FormikAutocomplete}
-    options={supplierItemsOptions}
-    isOptionEqualToValue={(option, value) =>
-      value && option.value === value.value
-    }
-    getOptionLabel={(option) => option.name}
-    onChange={(_, newValue) => onChangeAutocomplete(newValue)}
-    onInputChange={searchingSupplier}
-
-    renderOption={(props, option) => (
-      <li
-          {...props}
-        >
-          {option.name}
-        </li>
-      )}
+      name={name}
+      label={label}
+      loading={loading}
+      component={FormikAutocomplete}
+      options={supplierItemsOptions}
+      isOptionEqualToValue={(option, value) =>
+        value && option.value === value.value
+      }
+      getOptionLabel={(option) => option.name}
+      onChange={(_, newValue) => onChangeAutocomplete(newValue)}
+      onInputChange={searchingSupplier}
+      renderOption={(props, option) => <li {...props}>{option.name}</li>}
       disableClearable
     />
   );
 };
 
-export default EditableStepComponent;
+export default SupplierItemAutocompleteField;

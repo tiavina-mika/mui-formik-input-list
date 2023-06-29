@@ -11,6 +11,7 @@ import { Button, Grid, IconButton, Stack, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { IProductFormValues } from "../types/product.type";
+import SupplierItemAutocompleteField from "./SupplierItemAutocompleteField";
 
 const FormikTextField = ({ field, ...props }) => (
   <TextField {...field} {...props} />
@@ -39,7 +40,7 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
       //   alert(JSON.stringify(values, null, 2));
       // }}
     >
-      {({ values }) => (
+      {({ values, setFieldValue }) => (
         <Form>
           <FieldArray name="products">
             {({ insert, remove, push }) => (
@@ -48,11 +49,10 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
                   values.products.map((_, index: number) => (
                     <Grid container key={index}>
                       <Grid item xs={7}>
-                        <Field
+                        <SupplierItemAutocompleteField
                           name={`products.${index}.product`}
-                          type="text"
                           label="Produit"
-                          component={FormikTextField}
+                          setFieldValue={setFieldValue}
                         />
                         <ErrorMessage
                           name={`products.${index}.product`}
@@ -63,12 +63,12 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
                       <Grid item xs={4}>
                         <Field
                           name={`products.${index}.quantity`}
-                          type="quantity"
                           component={FormikTextField}
                           label="Quantité"
+                          type="number"
                         />
                         <ErrorMessage
-                          name={`products.${index}.name`}
+                          name={`products.${index}.quantity`}
                           component="div"
                           className="field-error"
                         />
