@@ -325,3 +325,10 @@ body .largeFormLabel {
 .headerHeight {
   height: 64px !important;
 }
+
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}

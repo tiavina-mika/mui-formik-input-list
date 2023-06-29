@@ -6,6 +6,7 @@
     "@mui/material": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "formik": "2.2.9",
     "react": "latest",
     "react-dom": "latest",
     "typescript": "latest"

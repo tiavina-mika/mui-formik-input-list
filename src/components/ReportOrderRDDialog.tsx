@@ -6,8 +6,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  styled
+  styled,
+  Box
 } from "@mui/material";
+import { FormikProps } from "formik";
+
+import { IProductFormValues } from "../types/product.type";
+import ReportOrderRDForm from "./ReportOrderRDForm";
 
 const StyledDialog = styled(Dialog)({
   "& .MuiPaper-root": {
@@ -20,7 +25,7 @@ const StyledDialog = styled(Dialog)({
 export const ReportOrderRDDialog = (props) => {
   const { onClose, open } = props;
 
-  const formikRef = useRef(null);
+  const formikRef = useRef<FormikProps<IProductFormValues>>(null);
 
   const handleConfirm = () => {
     formikRef.current.submitForm();
@@ -30,6 +35,10 @@ export const ReportOrderRDDialog = (props) => {
 
   const handleCancel = () => {
     onClose();
+  };
+
+  const handleSubmitOrderReport = (values: IProductFormValues) => {
+    console.log("values", values);
   };
 
   return (
@@ -46,6 +55,12 @@ export const ReportOrderRDDialog = (props) => {
           Ajouter les produits pour lesquels vous souhaitez générer un rapport
           de commande R&D, ainsi que la quantité associé à chaque produit.
         </DialogContentText>
+        <Box sx={{ mt: 4 }}>
+          <ReportOrderRDForm
+            ref={formikRef}
+            onSubmit={handleSubmitOrderReport}
+          />
+        </Box>
       </DialogContent>
       <DialogActions className="flexRow spaceBetween">
         <Button onClick={handleCancel} color="primary">
