@@ -49,63 +49,6 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
 }
 
-.highlightChip {
-  color: #0288d1; /* lightblue 700 */
-  font-weight: 500;
-}
-
-.mColor {
-  color: #388e3c;
-} /* green 700 */
-.pColor {
-  color: #0288d1;
-} /* lightblue 700 */
-.nColor {
-  color: #f57c00;
-} /* orange 700 */
-.mBgColor {
-  background-color: #388e3c;
-} /* green 700 */
-.pBgColor {
-  background-color: #0288d1;
-} /* lightblue 700 */
-.nBgColor {
-  background-color: #f57c00;
-} /* orange 700 */
-.mColorOnDark {
-  color: #c8e6c9;
-} /* green 100 */
-.pColorOnDark {
-  color: #b3e5fc;
-} /* lightblue 100 */
-.nColorOnDark {
-  color: #ffe0b2;
-} /* orange 100 */
-
-/*-------------------------------------------------------------------*/
-/*----------------------------- Reusable ----------------------------*/
-/*-------------------------------------------------------------------*/
-.rdFocused {
-  background-color: #fff9c4; /* yellow 100, same as pinMode */
-}
-
-.roboto {
-  font-family: "Roboto Slab";
-}
-
-.paper {
-  padding: 8px;
-}
-.card {
-  position: relative;
-  height: 100%;
-  padding: 8px;
-}
-
-.cardMargin {
-  margin-bottom: 10px;
-}
-
 /*----- Flex -------*/
 .flexRow {
   display: flex;

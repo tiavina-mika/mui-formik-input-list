@@ -7,10 +7,19 @@ import {
   FieldArray,
   FormikProps
 } from "formik";
-import { Button, Grid, IconButton, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  FormHelperText,
+  Grid,
+  IconButton,
+  Stack,
+  TextField
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+
 import { IProductFormValues } from "../types/product.type";
+import { ReportOrderRDSchema } from "../utils/validations/ordersvalidations";
 import SupplierItemAutocompleteField from "./SupplierItemAutocompleteField";
 
 const FormikTextField = ({ field, ...props }) => (
@@ -35,6 +44,7 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
       initialValues={initialValues}
       innerRef={ref}
       onSubmit={onSubmit}
+      validationSchema={ReportOrderRDSchema}
       // onSubmit={async (values) => {
       //   await new Promise((r) => setTimeout(r, 500));
       //   alert(JSON.stringify(values, null, 2));
@@ -43,45 +53,51 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
       {({ values, setFieldValue }) => (
         <Form>
           <FieldArray name="products">
-            {({ insert, remove, push }) => (
+            {({ remove, push }) => (
               <Stack spacing={3}>
                 {values.products.length > 0 &&
                   values.products.map((_, index: number) => (
-                    <Grid container key={index}>
-                      <Grid item xs={7}>
-                        <SupplierItemAutocompleteField
-                          name={`products.${index}.product`}
-                          label="Produit"
-                          setFieldValue={setFieldValue}
-                        />
-                        <ErrorMessage
-                          name={`products.${index}.product`}
-                          component="div"
-                          className="field-error"
-                        />
+                    <Grid container spacing={4} key={index}>
+                      <Grid item xs={8}>
+                        <Stack spacing={1}>
+                          <SupplierItemAutocompleteField
+                            name={`products.${index}.product`}
+                            label="Produit"
+                            setFieldValue={setFieldValue}
+                          />
+                          <ErrorMessage
+                            name={`products.${index}.product`}
+                            render={(message: string) => (
+                              <FormHelperText error>{message}</FormHelperText>
+                            )}
+                          />
+                        </Stack>
                       </Grid>
-                      <Grid item xs={4}>
-                        <Field
-                          name={`products.${index}.quantity`}
-                          component={FormikTextField}
-                          label="Quantité"
-                          type="number"
-                        />
-                        <ErrorMessage
-                          name={`products.${index}.quantity`}
-                          component="div"
-                          className="field-error"
-                        />
+                      <Grid item xs={3}>
+                        <Stack spacing={1}>
+                          <Field
+                            name={`products.${index}.quantity`}
+                            component={FormikTextField}
+                            label="Quantité"
+                            type="number"
+                            variant="standard"
+                          />
+                          <ErrorMessage
+                            name={`products.${index}.quantity`}
+                            render={(message: string) => (
+                              <FormHelperText error>{message}</FormHelperText>
+                            )}
+                          />
+                        </Stack>
                       </Grid>
-                      <Grid item xs={1} className="flexCenter">
-                        <div className="flexCenter ">
-                          <IconButton
-                            type="button"
-                            onClick={() => remove(index)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </div>
+                      <Grid item xs={1} sx={{ position: "relative" }}>
+                        <IconButton
+                          type="button"
+                          onClick={() => remove(index)}
+                          sx={{ position: "absolute", bottom: 0 }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
                       </Grid>
                     </Grid>
                   ))}

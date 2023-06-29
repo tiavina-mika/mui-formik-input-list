@@ -1,7 +1,12 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 
 import { Field } from "formik";
-import { Autocomplete, CircularProgress, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  CircularProgress,
+  styled,
+  TextField
+} from "@mui/material";
 import { debounce } from "lodash";
 import { searchSupplierItemsAutocomplete } from "../utils/utils";
 
@@ -12,6 +17,25 @@ const autocompleteSx = {
     }
   }
 };
+
+export const StyledAutocompleteTextField = styled(TextField)({
+  "& .MuiAutocomplete-inputRoot.MuiInputBase-root": {
+    "&:before": {
+      borderBottom: "none",
+      "&:hover": {
+        borderBottom: "none"
+      }
+    },
+    "& .MuiAutocomplete-input": {
+      padding: 4
+    }
+  },
+  "& .MuiInput-input": {
+    fontWeight: 600,
+    fontSize: 14,
+    color: "#414141"
+  }
+});
 
 const FormikAutocomplete = ({
   form,
@@ -74,7 +98,7 @@ const SupplierItemAutocompleteField = ({
   };
 
   const handleInputChange = debounce(
-    async (_: ChangeEvent<HTMLElement>, newValue, reason) => {
+    async (_: ChangeEvent<HTMLElement>, newValue) => {
       if (newValue) {
         setLoading(true);
         const supplierItems = await searchSupplierItemsAutocomplete(newValue);

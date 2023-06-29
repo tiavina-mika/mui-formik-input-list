@@ -10,7 +10,8 @@
     "lodash": "4.17.21",
     "react": "latest",
     "react-dom": "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "yup": "1.0.2"
   },
   "description": "https://github.com/mui/material-ui/blob/v5.13.6/docs/data/material/components/dialogs/SimpleDialog.tsx",
   "devDependencies": {
