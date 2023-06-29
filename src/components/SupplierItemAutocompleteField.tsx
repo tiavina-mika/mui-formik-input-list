@@ -127,9 +127,9 @@ const SupplierItemAutocompleteField = ({
       getOptionLabel={(option) => option.name}
       onChange={handleChange}
       onInputChange={handleInputChange}
-      renderOption={(props, option) => {
+      renderOption={(props, option, params) => {
         return (
-          <li key={option.value} {...props}>
+          <li key={option.value + params.index} {...props}>
             {option.name}
           </li>
         );

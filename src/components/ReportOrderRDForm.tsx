@@ -40,78 +40,84 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
       innerRef={ref}
       onSubmit={onSubmit}
       validationSchema={ReportOrderRDSchema}
-      // onSubmit={async (values) => {
-      //   await new Promise((r) => setTimeout(r, 500));
-      //   alert(JSON.stringify(values, null, 2));
-      // }}
     >
-      {({ values, setFieldValue }) => (
-        <Form>
-          <FieldArray name="products">
-            {({ remove, push }) => (
-              <Stack spacing={3}>
-                {values.products.length > 0 &&
-                  values.products.map((_, index: number) => (
-                    <Grid container spacing={4} key={index}>
-                      <Grid item xs={8}>
-                        <Stack spacing={1}>
-                          <SupplierItemAutocompleteField
-                            name={`products.${index}.product`}
-                            label="Produit"
-                            setFieldValue={setFieldValue}
-                          />
-                          <ErrorMessage
-                            name={`products.${index}.product`}
-                            render={(message: string) => (
-                              <FormHelperText error>{message}</FormHelperText>
-                            )}
-                          />
-                        </Stack>
+      {({ values, setFieldValue }) => {
+        return (
+          <Form>
+            <FieldArray name="products">
+              {({ remove, push }) => (
+                <Stack spacing={3} className="blue">
+                  {values.products.length > 0 &&
+                    values.products.map((_, index: number) => (
+                      <Grid container key={index}>
+                        <Grid item xs={8}>
+                          <Stack spacing={1}>
+                            <SupplierItemAutocompleteField
+                              name={`products.${index}.product`}
+                              label="Produit"
+                              setFieldValue={setFieldValue}
+                            />
+                            <ErrorMessage
+                              name={`products.${index}.product`}
+                              render={(message: string) => (
+                                <FormHelperText error>{message}</FormHelperText>
+                              )}
+                            />
+                          </Stack>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Stack spacing={1}>
+                            <Field
+                              name={`products.${index}.quantity`}
+                              component={FormikTextField}
+                              label="Quantité"
+                              type="number"
+                              variant="standard"
+                            />
+                            <ErrorMessage
+                              name={`products.${index}.quantity`}
+                              render={(message: string) => (
+                                <FormHelperText error>{message}</FormHelperText>
+                              )}
+                            />
+                          </Stack>
+                        </Grid>
+                        <Grid item xs={1} sx={{ position: "relative" }}>
+                          <IconButton
+                            type="button"
+                            onClick={() => remove(index)}
+                            sx={{ position: "absolute", bottom: 0 }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={3}>
-                        <Stack spacing={1}>
-                          <Field
-                            name={`products.${index}.quantity`}
-                            component={FormikTextField}
-                            label="Quantité"
-                            type="number"
-                            variant="standard"
-                          />
-                          <ErrorMessage
-                            name={`products.${index}.quantity`}
-                            render={(message: string) => (
-                              <FormHelperText error>{message}</FormHelperText>
-                            )}
-                          />
-                        </Stack>
-                      </Grid>
-                      <Grid item xs={1} sx={{ position: "relative" }}>
-                        <IconButton
-                          type="button"
-                          onClick={() => remove(index)}
-                          sx={{ position: "absolute", bottom: 0 }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  ))}
-                <div>
-                  <Button
-                    onClick={() => push({ name: "", email: "" })}
-                    variant="text"
-                    startIcon={<AddIcon />}
-                    sx={{ textTransform: "initial" }}
-                  >
-                    Ajouter un produit
-                  </Button>
-                </div>
-              </Stack>
-            )}
-          </FieldArray>
-          {/* <button type="submit">Invite</button> */}
-        </Form>
-      )}
+                    ))}
+                  <Stack spacing={0}>
+                    <ErrorMessage
+                      name={`products`}
+                      render={(message: string) => (
+                        <FormHelperText error>{message}</FormHelperText>
+                      )}
+                    />
+                    <div>
+                      <Button
+                        onClick={() => push({ product: null, quantity: 0 })}
+                        variant="text"
+                        startIcon={<AddIcon />}
+                        sx={{ textTransform: "initial" }}
+                      >
+                        Ajouter un produit
+                      </Button>
+                    </div>
+                  </Stack>
+                </Stack>
+              )}
+            </FieldArray>
+            {/* <button type="submit">Invite</button> */}
+          </Form>
+        );
+      }}
     </Formik>
   )
 );
