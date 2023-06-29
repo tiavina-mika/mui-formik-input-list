@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 
 import { Field } from "formik";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
@@ -70,27 +70,26 @@ const SupplierItemAutocompleteField = ({
   const [supplierItemsOptions, setSupplierItemsOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const onChangeAutocomplete = (newValue) => {
-    // console.log('newValue', newValue)
+  const handleChange = (_: ChangeEvent<HTMLElement>, newValue, reason) => {
     setFieldValue(name, newValue.data);
-    // c
   };
 
-  const searchingSupplier = debounce(async (event) => {
-    if (event && event.type === "change") {
-      setLoading(true);
-      const supplierItems = await searchSupplierItemsAutocomplete(
-        event.target.value
-      );
-      const result = supplierItems.map((supplierItem) => ({
-        name: supplierItem.name.toLowerCase(),
-        value: supplierItem.objectId,
-        data: supplierItem
-      }));
-      setSupplierItemsOptions(result);
-      setLoading(false);
-    }
-  }, 700);
+  const handleInputChange = debounce(
+    async (_: ChangeEvent<HTMLElement>, newValue, reason) => {
+      if (newValue) {
+        setLoading(true);
+        const supplierItems = await searchSupplierItemsAutocomplete(newValue);
+        const result = supplierItems.map((supplierItem) => ({
+          name: supplierItem.name.toLowerCase(),
+          value: supplierItem.objectId,
+          data: supplierItem
+        }));
+        setSupplierItemsOptions(result);
+        setLoading(false);
+      }
+    },
+    700
+  );
 
   return (
     <Field
@@ -99,14 +98,12 @@ const SupplierItemAutocompleteField = ({
       loading={loading}
       component={FormikAutocomplete}
       options={supplierItemsOptions}
-      isOptionEqualToValue={(option, value) => {
-        // console.log('option', option);
-        // console.log('value', value);
-        return value && option.value === value.objectId;
-      }}
+      isOptionEqualToValue={(option, value) =>
+        value && option.value === value.objectId
+      }
       getOptionLabel={(option) => option.name}
-      onChange={(_, newValue) => onChangeAutocomplete(newValue)}
-      onInputChange={searchingSupplier}
+      onChange={handleChange}
+      onInputChange={handleInputChange}
       renderOption={(props, option) => {
         return (
           <li key={option.value} {...props}>
