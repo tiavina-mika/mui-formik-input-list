@@ -31,8 +31,9 @@ export const ReportOrderRDDialog = (props) => {
   const handleConfirm = () => {
     formikRef.current.submitForm();
 
-    // not close the dialog if empty product
-    if (!formikRef.current.values.products.length) return;
+    // not close the dialog if empty product or any arror
+    const products = formikRef.current.values.products;
+    if (formikRef.current.errors.products?.length || !products.length) return;
     onClose();
   };
 

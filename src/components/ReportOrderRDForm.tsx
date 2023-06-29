@@ -41,68 +41,81 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
       onSubmit={onSubmit}
       validationSchema={ReportOrderRDSchema}
     >
-      {({ values, setFieldValue }) => {
+      {(props) => {
+        const { values, setFieldValue, handleReset, isValid } = props;
         return (
           <Form>
             <FieldArray name="products">
               {({ remove, push }) => (
-                <Stack spacing={3} className="blue">
+                <Stack spacing={1}>
                   {values.products.length > 0 &&
                     values.products.map((_, index: number) => (
-                      <Grid container key={index}>
-                        <Grid item xs={8}>
-                          <Stack spacing={1}>
-                            <SupplierItemAutocompleteField
-                              name={`products.${index}.product`}
-                              label="Produit"
-                              setFieldValue={setFieldValue}
-                            />
-                            <ErrorMessage
-                              name={`products.${index}.product`}
-                              render={(message: string) => (
-                                <FormHelperText error>{message}</FormHelperText>
-                              )}
-                            />
-                          </Stack>
+                      <div key={index}>
+                        <Grid container spacing={4}>
+                          <Grid item xs={8}>
+                            <Stack spacing={1}>
+                              <SupplierItemAutocompleteField
+                                name={`products.${index}.product`}
+                                label="Produit"
+                                setFieldValue={setFieldValue}
+                              />
+                              <ErrorMessage
+                                name={`products.${index}.product`}
+                                render={(message: string) => (
+                                  <FormHelperText error>
+                                    {message}
+                                  </FormHelperText>
+                                )}
+                              />
+                            </Stack>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Stack spacing={1}>
+                              <Field
+                                name={`products.${index}.quantity`}
+                                component={FormikTextField}
+                                label="Quantité"
+                                type="number"
+                                variant="standard"
+                              />
+                              <ErrorMessage
+                                name={`products.${index}.quantity`}
+                                render={(message: string) => (
+                                  <FormHelperText error>
+                                    {message}
+                                  </FormHelperText>
+                                )}
+                              />
+                            </Stack>
+                          </Grid>
+                          <Grid item xs={1} sx={{ position: "relative" }}>
+                            <IconButton
+                              type="button"
+                              onClick={() => remove(index)}
+                              sx={{ position: "absolute", bottom: 0 }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={3}>
-                          <Stack spacing={1}>
-                            <Field
-                              name={`products.${index}.quantity`}
-                              component={FormikTextField}
-                              label="Quantité"
-                              type="number"
-                              variant="standard"
-                            />
-                            <ErrorMessage
-                              name={`products.${index}.quantity`}
-                              render={(message: string) => (
-                                <FormHelperText error>{message}</FormHelperText>
-                              )}
-                            />
-                          </Stack>
-                        </Grid>
-                        <Grid item xs={1} sx={{ position: "relative" }}>
-                          <IconButton
-                            type="button"
-                            onClick={() => remove(index)}
-                            sx={{ position: "absolute", bottom: 0 }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
+                      </div>
                     ))}
                   <Stack spacing={0}>
                     <ErrorMessage
                       name={`products`}
-                      render={(message: string) => (
-                        <FormHelperText error>{message}</FormHelperText>
-                      )}
+                      render={(message: string) => {
+                        if (typeof message !== "string") return;
+                        return <FormHelperText error>{message}</FormHelperText>;
+                      }}
                     />
                     <div>
                       <Button
-                        onClick={() => push({ product: null, quantity: 0 })}
+                        onClick={() => {
+                          if (!isValid) {
+                            handleReset();
+                          }
+                          push({ product: null, quantity: null });
+                        }}
                         variant="text"
                         startIcon={<AddIcon />}
                         sx={{ textTransform: "initial" }}
@@ -114,7 +127,6 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
                 </Stack>
               )}
             </FieldArray>
-            {/* <button type="submit">Invite</button> */}
           </Form>
         );
       }}
