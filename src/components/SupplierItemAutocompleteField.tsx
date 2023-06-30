@@ -36,6 +36,7 @@ export const StyledAutocompleteTextField = styled(TextField)({
     color: "#414141"
   }
 });
+
 const FormikAutocomplete = ({
   form,
   loading,
