@@ -53,7 +53,7 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
   ({ onSubmit }, ref) => {
   const [searchedRecipes, setSearchedRecipes] = useState<IRecipe[]>([]);
 
-  const handleSearchRecipes = async (search) => {
+  const handleSearchRecipes = async (search: string) => {
     const recipes = await searchRecipesAutocomplete(search);
 
     setSearchedRecipes(recipes);

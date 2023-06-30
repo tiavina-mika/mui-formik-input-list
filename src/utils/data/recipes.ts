@@ -1,4 +1,6 @@
-export const recipes = [
+import { IRecipe } from "../../types/recipe.type";
+
+export const recipes: IRecipe[] = [
   {
       "exportedTo": [],
       "sections": [
