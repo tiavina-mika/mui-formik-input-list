@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import ReportOrderRDDialog from "./components/ReportOrderRDDialog";
+import ReportOrderRDDialog from "./containers/ReportOrderRDDialog";
 
 const App = () => {
   const [openOrderReportRDDialog, setOpenOrderReportRDDialog] = useState<

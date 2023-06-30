@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { debounce } from "lodash";
 import { searchSupplierItemsAutocomplete } from "../utils/utils";
+import { IAutoCompleteOption } from "../types/util.type";
 
 const autocompleteSx = {
   textField: {
@@ -83,35 +84,34 @@ type Props = {
   name: string;
   label: string;
   setFieldValue: any;
+  options: IAutoCompleteOption[],
+  getOptionLabel: (value: Record<string, any>) => string;
+  onSearch: (value: string) => void;
 };
 
-const SupplierItemAutocompleteField = ({
+const FormikAutocompleteField = ({
   setFieldValue,
   name,
-  label
+  label,
+  options,
+  getOptionLabel, // { value (ex: objectId), data (parse object json)}
+  onSearch,
 }: Props) => {
-  const [supplierItemsOptions, setSupplierItemsOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleChange = (_: ChangeEvent<HTMLElement>, newValue, reason) => {
+  const handleChange = (_: ChangeEvent<HTMLElement>, newValue) => {
     setFieldValue(name, newValue.data);
   };
-
+  
   const handleInputChange = debounce(
-    async (_: ChangeEvent<HTMLElement>, newValue) => {
-      if (newValue) {
+    async (event: ChangeEvent<HTMLElement>, newValue) => {
+      if (newValue && event?.type === "change") {
         setLoading(true);
-        const supplierItems = await searchSupplierItemsAutocomplete(newValue);
-        const result = supplierItems.map((supplierItem) => ({
-          name: supplierItem.name.toLowerCase(),
-          value: supplierItem.objectId,
-          data: supplierItem
-        }));
-        setSupplierItemsOptions(result);
+        await onSearch(newValue);
         setLoading(false);
       }
     },
-    700
+    500
   );
 
   return (
@@ -120,23 +120,16 @@ const SupplierItemAutocompleteField = ({
       label={label}
       loading={loading}
       component={FormikAutocomplete}
-      options={supplierItemsOptions}
+      options={options}
       isOptionEqualToValue={(option, value) =>
         value && option.value === value.objectId
       }
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={option => getOptionLabel(option.data || option)}
       onChange={handleChange}
       onInputChange={handleInputChange}
-      renderOption={(props, option, params) => {
-        return (
-          <li key={option.value + params.index} {...props}>
-            {option.name}
-          </li>
-        );
-      }}
       disableClearable
     />
   );
 };
 
-export default SupplierItemAutocompleteField;
+export default FormikAutocompleteField;

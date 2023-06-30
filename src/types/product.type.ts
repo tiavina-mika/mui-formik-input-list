@@ -1,5 +1,7 @@
+import { IRecipe } from "./recipe.type";
+
 interface IProduct {
-  product: Record<string, any> | null;
+  product: IRecipe | null;
   quantity: number | null;
 }
 export interface IProductFormValues {

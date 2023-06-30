@@ -25,7 +25,7 @@ const StyledDialog = styled(Dialog)({
 
 type Props = {
   onClose: () => void;
-  opent: boolean;
+  open: boolean;
 };
 export const ReportOrderRDDialog = ({ onClose, open }: Props) => {
   const formikRef = useRef<FormikProps<IProductFormValues>>(null);

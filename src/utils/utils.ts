@@ -1,8 +1,8 @@
-import { supplierItems } from "./data/supplierItems";
+import { recipes } from "./data/recipes";
 
-export const searchSupplierItemsAutocomplete = (search: string) => {
-  const newSupplierItems = supplierItems.filter((supplierItem) =>
-    supplierItem.name.toLocaleLowerCase().includes(search)
+export const searchRecipesAutocomplete = (search: string) => {
+  const newRecipes = recipes.filter((recipe) =>
+    recipe.name.toLocaleLowerCase().includes(search)
   );
-  return newSupplierItems;
+  return newRecipes;
 };
