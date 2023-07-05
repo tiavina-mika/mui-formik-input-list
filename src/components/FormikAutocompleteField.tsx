@@ -8,7 +8,6 @@ import {
   TextField
 } from "@mui/material";
 import { debounce } from "lodash";
-import { searchSupplierItemsAutocomplete } from "../utils/utils";
 import { IAutoCompleteOption } from "../types/util.type";
 
 const autocompleteSx = {
@@ -84,7 +83,7 @@ type Props = {
   name: string;
   label: string;
   setFieldValue: any;
-  options: IAutoCompleteOption[],
+  options: IAutoCompleteOption[];
   getOptionLabel: (value: Record<string, any>) => string;
   onSearch: (value: string) => void;
 };
@@ -95,14 +94,14 @@ const FormikAutocompleteField = ({
   label,
   options,
   getOptionLabel, // { value (ex: objectId), data (parse object json)}
-  onSearch,
+  onSearch
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (_: ChangeEvent<HTMLElement>, newValue) => {
     setFieldValue(name, newValue.data);
   };
-  
+
   const handleInputChange = debounce(
     async (event: ChangeEvent<HTMLElement>, newValue) => {
       if (newValue && event?.type === "change") {
@@ -124,7 +123,7 @@ const FormikAutocompleteField = ({
       isOptionEqualToValue={(option, value) =>
         value && option.value === value.objectId
       }
-      getOptionLabel={option => getOptionLabel(option.data || option)}
+      getOptionLabel={(option) => getOptionLabel(option.data || option)}
       onChange={handleChange}
       onInputChange={handleInputChange}
       disableClearable
