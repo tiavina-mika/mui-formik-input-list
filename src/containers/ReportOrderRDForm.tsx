@@ -68,8 +68,7 @@ const ReportOrderRDForm = forwardRef<FormikProps<IProductFormValues>, Props>(
         onSubmit={onSubmit}
         validationSchema={ReportOrderRDSchema}
       >
-        {(props) => {
-          const { values, setFieldValue } = props;
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <FieldArray name="products">
